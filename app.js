@@ -53,6 +53,7 @@ app.post('/uploads', upload.array('files', 12), function (req, res, next) {
 	// console.log(file);
 	// console.log(file.mimetype);
 	// });
+	res.send('success');
 })
 
 // catch 404 and forward to error handler
