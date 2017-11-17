@@ -10,9 +10,15 @@ var users = require('./routes/users');
 
 var multer  = require('multer')
 
+
+var root_path = '';
+if ( process.env.NODE_ENV === 'production' ) {
+	root_path = '/home/hanqijing/video-poster/';
+}
+
 var storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-		cb(null, 'uploads/')
+		cb(null, root_path + 'uploads/')
 	},
 	filename: function (req, file, cb) {
 		let extArray = file.mimetype.split("/");
