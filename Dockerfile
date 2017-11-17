@@ -16,4 +16,5 @@ RUN npm install
 COPY . .
 
 EXPOSE 3000
-CMD [ "NODE_ENV=production", "npm", "start" ]
+ENV NODE_ENV production
+CMD [ "npm", "start" ]
