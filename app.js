@@ -8,6 +8,25 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
+var multer  = require('multer')
+
+var storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, 'uploads/')
+	},
+	filename: function (req, file, cb) {
+		let extArray = file.mimetype.split("/");
+		let extension = extArray[extArray.length - 1];
+		cb(null, file.originalname);
+		// cb(null, file.originalname + '-' + Date.now() + '.' + extension);
+		// cb(null, file.fieldname + '-' + Date.now()) //Appending .jpg
+	}
+});
+
+var upload = multer({ 
+	// dest: 'uploads/'， 
+	storage: storage })
+
 var app = express();
 
 // view engine setup
@@ -24,6 +43,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+
+app.post('/uploads', upload.array('files', 12), function (req, res, next) {
+	// req.files is array of `photos` files
+	// req.body will contain the text fields, if there were any
+	// console.log(req);
+	console.log(req.files);
+	// req.files.forEach(function(file) {
+	// console.log(file);
+	// console.log(file.mimetype);
+	// });
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
